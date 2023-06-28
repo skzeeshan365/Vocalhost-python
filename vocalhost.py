@@ -5,7 +5,6 @@ import uuid
 import certifi
 
 remote_url = 'wss://vocalhost.reiserx.com/'
-local_url = 'ws://127.0.0.1:8000/'
 
 class Client:
     def _generate_unique_id():
