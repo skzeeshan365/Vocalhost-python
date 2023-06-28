@@ -5,8 +5,6 @@ import uuid
 import certifi
 import requests
 
-remote_url = 'wss://vocalhost.reiserx.com/'
-
 class Receiver:
     def _generate_unique_id():
         return str(uuid.uuid4())
@@ -27,6 +25,7 @@ class Receiver:
     async def _connect_to_server(self):
         ssl_context = ssl.create_default_context(cafile=certifi.where())
         ssl_context.verify_mode = ssl.CERT_REQUIRED
+        remote_url = 'wss://vocalhost.reiserx.com/'
 
         try:
             async with websockets.connect(remote_url+'ws/?client_id=' + self.client_id + '&api_key='+self.API_KEY, ssl=ssl_context) as websocket:
@@ -46,18 +45,20 @@ class Receiver:
 
 
 class Request:
-    def __init__(self, api_key, receiver_id=None):
+    def __init__(self, api_key):
         self.api_key = api_key
-        self.receiver_id = receiver_id
-        self.url = 'https://vocalhost.reiserx.com/'+ receiver_id +'/'
-        self.headers = {
-            'Timeout': '100',
-            'Authorization': self.api_key
-        }
 
-    def send(self, message):
+    def send(self, message, receiver_id, timeout=60):
+        receiver_id = str(receiver_id)
+        self.url = 'https://vocalhost.reiserx.com/'+ receiver_id +'/'
         data = {
             'message': message
         }
+        
+        self.headers = {
+            'Timeout': str(timeout),
+            'Authorization': self.api_key
+        }
+        
         response = requests.post(self.url, headers=self.headers, json=data)
         return response
