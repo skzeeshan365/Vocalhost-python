@@ -50,7 +50,7 @@ class Request:
 
     def send(self, message, receiver_id, timeout=60):
         receiver_id = str(receiver_id)
-        self.url = 'https://vocalhost.reiserx.com/'+ receiver_id +'/'
+        self.url = 'https://vocalhost.reiserx.com/connect/'+ receiver_id +'/'
         data = {
             'message': message
         }
