@@ -6,13 +6,13 @@ import certifi
 
 remote_url = 'wss://vocalhost.reiserx.com/'
 
-class Client:
+class Receiver:
     def _generate_unique_id():
         return str(uuid.uuid4())
 
     def __init__(self, process_message, client_id, API_KEY):
         self.websocket = None
-        self.client_id = client_id if client_id else Client._generate_unique_id()
+        self.client_id = client_id if client_id else Receiver._generate_unique_id()
         self.received_message = None
         self.process_message = process_message
         self.API_KEY = API_KEY
