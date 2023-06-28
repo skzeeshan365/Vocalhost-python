@@ -4,8 +4,8 @@ with open('README.md', 'r', encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='vocalhost-python',
-    version='1.0.1',
+    name='vocalhost',
+    version='1.0.0',
     py_modules=['vocalhost'],
     install_requires=[
         'websockets',
