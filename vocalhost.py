@@ -3,6 +3,7 @@ import websockets
 import ssl
 import uuid
 import certifi
+import requests
 
 remote_url = 'wss://vocalhost.reiserx.com/'
 
@@ -42,3 +43,21 @@ class Receiver:
             
     def connect(self):
         asyncio.run(self._connect_to_server())
+
+
+class Request:
+    def __init__(self, api_key, receiver_id=None):
+        self.api_key = api_key
+        self.receiver_id = receiver_id
+        self.url = 'https://vocalhost.reiserx.com/'+ receiver_id +'/'
+        self.headers = {
+            'Timeout': '100',
+            'Authorization': self.api_key
+        }
+
+    def send(self, message):
+        data = {
+            'message': message
+        }
+        response = requests.post(self.url, headers=self.headers, json=data)
+        return response
