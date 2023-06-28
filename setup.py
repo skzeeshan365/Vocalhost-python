@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name='vocalhost',
-    version='1.0.1',
+    version='1.0.2',
     py_modules=['vocalhost'],
     install_requires=[
         'websockets',
