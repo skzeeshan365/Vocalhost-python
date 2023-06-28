@@ -24,10 +24,6 @@ jobs:
         pip install build
     - name: Build package
       run: python -m build
-    - name: Modify package file name
-      run: |
-        mv dist/my-package-*.tar.gz dist/my-package-$GITHUB_RUN_NUMBER.tar.gz
-        mv dist/my-package-*.whl dist/my-package-$GITHUB_RUN_NUMBER.whl
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
       with:
