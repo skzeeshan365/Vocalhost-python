@@ -1,0 +1,7 @@
+setup.py
+vocalhost.py
+vocalhost_python.egg-info/PKG-INFO
+vocalhost_python.egg-info/SOURCES.txt
+vocalhost_python.egg-info/dependency_links.txt
+vocalhost_python.egg-info/requires.txt
+vocalhost_python.egg-info/top_level.txt
