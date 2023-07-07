@@ -11,4 +11,5 @@ def generate_response(message):
 
 vocalhost.process_message = generate_response
 
+client_id = 'RECEIVER_ID_HERE'
 vocalhost.Receiver.connect(client_id='3')
