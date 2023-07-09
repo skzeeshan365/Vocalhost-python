@@ -45,14 +45,11 @@ class Request:
     def send(message, receiver_id, timeout=60):
         receiver_id = str(receiver_id)
         url = 'https://vocalhost.reiserx.com/connect/'+ receiver_id +'/'
-        data = {
-            'message': message
-        }
         
         headers = {
             'Timeout': str(timeout),
             'Authorization': API_KEY
         }
         
-        response = requests.post(url, headers=headers, json=data)
+        response = requests.post(url, headers=headers, data=message)
         return response
