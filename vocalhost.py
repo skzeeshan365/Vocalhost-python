@@ -41,7 +41,7 @@ class Receiver:
                     pass
                 else:
                      print("Reconnecting...")
-                     await asyncio.sleep(5)
+                     await asyncio.sleep(30 * 60)
                      await Receiver._connect_to_server(client_id=client_id)
             
     def connect(client_id=None, auto_reconnect=False):
