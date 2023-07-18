@@ -21,8 +21,9 @@ class Receiver:
             received_message = await Receiver.websocket.recv()
             response = process_message(received_message)
             await Receiver.websocket.send(response)
+        
 
-    async def _connect_to_server(client_id=None):
+    async def _connect_to_server(client_id=None, auto_reconnect=False):
         ssl_context = ssl.create_default_context(cafile=certifi.where())
         ssl_context.verify_mode = ssl.CERT_REQUIRED
         remote_url = 'wss://vocalhost.reiserx.com/'
@@ -34,11 +35,17 @@ class Receiver:
                 await Receiver.receive_message()
 
         except websockets.ConnectionClosedError as e:
-            print(f"Connection closed: {e}")
-            # Handle connection closure, if needed
+            print(f"Connection closed: {e.code} {e.reason}")
+            if auto_reconnect:
+                if e.code == 4000 or e.code == 4001 or e.code == 4002:
+                    pass
+                else:
+                     print("Reconnecting...")
+                     await asyncio.sleep(5)
+                     await Receiver._connect_to_server(client_id=client_id)
             
-    def connect(client_id=None):
-        asyncio.run(Receiver._connect_to_server(client_id=client_id))
+    def connect(client_id=None, auto_reconnect=False):
+        asyncio.run(Receiver._connect_to_server(client_id=client_id, auto_reconnect=auto_reconnect))
 
 
 class Request:
@@ -53,3 +60,4 @@ class Request:
         
         response = requests.post(url, headers=headers, data=message)
         return response
+    
