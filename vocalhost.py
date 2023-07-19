@@ -23,13 +23,13 @@ class Receiver:
             await Receiver.websocket.send(response)
         
 
-    async def _connect_to_server(client_id=None, auto_reconnect=None):
+    async def _connect_to_server(client_id=None, auto_reconnect=None, ping_interval=60):
         ssl_context = ssl.create_default_context(cafile=certifi.where())
         ssl_context.verify_mode = ssl.CERT_REQUIRED
         remote_url = 'wss://vocalhost.reiserx.com/'
 
         try:
-            async with websockets.connect(remote_url+'ws/?client_id=' + client_id + '&api_key='+API_KEY, ssl=ssl_context, ping_interval=None) as websocket:
+            async with websockets.connect(remote_url+'ws/?client_id=' + client_id + '&api_key='+API_KEY, ssl=ssl_context, ping_interval=ping_interval) as websocket:
                 print("Connected: " + client_id)
                 Receiver.websocket = websocket
                 await Receiver.receive_message()
@@ -42,10 +42,10 @@ class Receiver:
                 else:
                      print("Reconnecting...")
                      await asyncio.sleep(auto_reconnect)
-                     await Receiver._connect_to_server(client_id=client_id, auto_reconnect=auto_reconnect)
+                     await Receiver._connect_to_server(client_id=client_id, auto_reconnect=auto_reconnect, ping_interval=ping_interval)
             
-    def connect(client_id=None, auto_reconnect=None):
-        asyncio.run(Receiver._connect_to_server(client_id=client_id, auto_reconnect=auto_reconnect))
+    def connect(client_id=None, auto_reconnect=None, ping_interval=60):
+        asyncio.run(Receiver._connect_to_server(client_id=client_id, auto_reconnect=auto_reconnect, ping_interval=ping_interval))
 
 
 class Request:
