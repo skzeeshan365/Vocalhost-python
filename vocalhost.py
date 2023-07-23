@@ -19,7 +19,7 @@ class Receiver:
     async def receive_message():
         while True:
             received_message = await Receiver.websocket.recv()
-            response = process_message(received_message)
+            response = await asyncio.to_thread(process_message, received_message)
             await Receiver.websocket.send(response)
         
 
@@ -29,7 +29,7 @@ class Receiver:
         remote_url = 'wss://vocalhost.reiserx.com/'
 
         try:
-            async with websockets.connect(remote_url+'ws/?client_id=' + client_id + '&api_key='+API_KEY, ssl=ssl_context, ping_interval=None) as websocket:
+            async with websockets.connect(remote_url+'ws/?client_id=' + client_id + '&api_key='+API_KEY, ssl=ssl_context) as websocket:
                 print("Connected: " + client_id)
                 Receiver.websocket = websocket
                 await Receiver.receive_message()
@@ -60,4 +60,3 @@ class Request:
         
         response = requests.post(url, headers=headers, data=message)
         return response
-    
