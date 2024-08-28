@@ -7,6 +7,7 @@ import requests
 
 API_KEY = None
 process_message = None
+process_bytes = None
 
 class Receiver:
     def _generate_unique_id():
@@ -19,7 +20,10 @@ class Receiver:
     async def receive_message():
         while True:
             received_message = await Receiver.websocket.recv()
-            response = await asyncio.to_thread(process_message, received_message)
+            if isinstance(received_message, bytes):
+                response = await asyncio.to_thread(process_bytes, received_message)
+            else:
+                response = await asyncio.to_thread(process_message, received_message)
             await Receiver.websocket.send(response)
         
 

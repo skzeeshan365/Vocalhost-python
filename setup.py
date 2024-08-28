@@ -5,12 +5,12 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name='vocalhost',
-    version='1.1.8',
+    version='1.1.9',
     py_modules=['vocalhost'],
     install_requires=[
         'websockets',
         'certifi',
-        'requests'
+        'requests',
     ],
     description='Localhost to Vocalhost, run functions from anywhere',
     long_description=long_description,
